@@ -35,7 +35,7 @@ class World:
                 random_2 = rd.randint(0, self.column_number - 1)
             liste_requins.append([random_1,random_2])
             self.grille[random_1][random_2] = "🦈"
-
+            
     def display_world(self):
         for ligne in self.grille:
             for elt in ligne:
@@ -44,23 +44,25 @@ class World:
 
 
 
-
-class Poisson(World):
+class Poisson:
     
     
     def __init__(self, coordonnees_x ,coordonnees_y):
         self.compteur_reproduction = 0
         self.coordonnees_x = coordonnees_x
-        self.coordonnees_rdy = coordonnees_y
+        self.coordonnees_y = coordonnees_y
         
         
     
     def se_deplacer(self):
-        for poisson in liste_thons:
-            poisson[0] += 1
-            poisson[1] += 1
-        for poisson in liste_thons:
-            self.grille[poisson[0]][poisson[1]] = "🐡"
+        mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🌊"
+        thon.coordonnees_x -= 1
+        if thon.coordonnees_x < 0 :
+            thon.coordonnees_x = 4
+        thon.coordonnees_y += 1
+        if thon.coordonnees_y > 4 :
+            thon.coordonnees_y = 0
+        mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🐡"
             
 
 class Requin(Poisson):
@@ -83,9 +85,13 @@ mon_monde = World(5,5,3,3)
 mon_monde.empty_world()
 mon_monde.fill_world()
 mon_monde.display_world()
-print(liste_thons)
+print('------------------------')
 for thon in liste_thons:
-    print(thon.coordonnees_x)
+    thon.se_deplacer()
+mon_monde.display_world()
+
+
+
 
 
 
