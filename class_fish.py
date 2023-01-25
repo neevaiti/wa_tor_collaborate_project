@@ -10,7 +10,7 @@ class World:
         self.fish = fish
         self.shark = shark
 
-    def create_world(self, lines_number, column_number):
+    def empty_world(self):
         for i in range(0, self.lines_number):
             une_ligne = []
             self.grille.append(une_ligne)
@@ -25,7 +25,7 @@ class World:
             while self.grille[random_1][random_2] != "🌊":
                 random_1 = rd.randint(0, self.lines_number - 1)
                 random_2 = rd.randint(0, self.column_number - 1)
-            liste_thons.append([random_1, random_2])
+            liste_thons.append(Poisson(random_1, random_2))
             self.grille[random_1][random_2] = "🐡"
         for i in range(0, self.shark):
             random_1 = rd.randint(0, self.lines_number - 1)
@@ -45,22 +45,29 @@ class World:
 
 
 
-class Poisson:
+class Poisson(World):
     
     
-    def __init__(self, compteur_reproduction):
-        self.compteur_reproduction = compteur_reproduction
+    def __init__(self, coordonnees_x ,coordonnees_y):
+        self.compteur_reproduction = 0
+        self.coordonnees_x = coordonnees_x
+        self.coordonnees_rdy = coordonnees_y
+        
         
     
     def se_deplacer(self):
-        pass        
+        for poisson in liste_thons:
+            poisson[0] += 1
+            poisson[1] += 1
+        for poisson in liste_thons:
+            self.grille[poisson[0]][poisson[1]] = "🐡"
             
 
 class Requin(Poisson):
     
-    def __init__(self,compteur_reproduction, energie):
-        self.compteur_reproduction = compteur_reproduction
-        self.energie = energie 
+    def __init__(self):
+        self.compteur_reproduction = 0
+        self.energie = 10
        
     
     def se_deplacer(self):
@@ -70,16 +77,18 @@ class Requin(Poisson):
         
 
 
-
-
 liste_thons = []
 liste_requins = []
 mon_monde = World(5,5,3,3)
-mon_monde.create_world(5,5)
+mon_monde.empty_world()
 mon_monde.fill_world()
 mon_monde.display_world()
 print(liste_thons)
-print(liste_requins)
+for thon in liste_thons:
+    print(thon.coordonnees_x)
+
+
+
 
 
 
