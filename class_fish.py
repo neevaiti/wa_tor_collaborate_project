@@ -80,9 +80,14 @@ class Poisson:
                 thon.coordonnees_y = 4    
         mon_monde.grille[ancien_x][ancien_y] = "🌊"  
         mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🐡"
+        
+        
+        
+    def se_reproduire(self):   
         self.compteur_reproduction += 1
         if self.compteur_reproduction == 3 : 
-            mon_monde.grille[ancien_x][ancien_y] = "🐡"
+            mon_monde.grille[self.coordonnees_x][self.coordonnees_y-1] = "🐡"
+            liste_thons.append(Poisson(self.coordonnees_x, self.coordonnees_y-1))
             
             
 
@@ -112,6 +117,26 @@ mon_monde.display_world()
 print('------------------------')
 for thon in liste_thons:
     thon.se_deplacer()
+mon_monde.display_world()
+print('------------------------')
+for thon in liste_thons:
+    thon.se_reproduire()
+mon_monde.display_world()
+print('------------------------')
+for thon in liste_thons:
+    thon.se_deplacer()
+mon_monde.display_world()
+print('------------------------')
+for thon in liste_thons:
+    thon.se_reproduire()
+mon_monde.display_world()
+print('------------------------')
+for thon in liste_thons:
+    thon.se_deplacer()
+mon_monde.display_world()
+print('------------------------')
+for thon in liste_thons:
+    thon.se_reproduire()
 mon_monde.display_world()
 
 
