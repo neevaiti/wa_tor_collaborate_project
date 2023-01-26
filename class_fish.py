@@ -33,7 +33,7 @@ class World:
             while self.grille[random_1][random_2] != "🌊":
                 random_1 = rd.randint(0, self.lines_number - 1)
                 random_2 = rd.randint(0, self.column_number - 1)
-            liste_requins.append([random_1,random_2])
+            liste_requins.append(Requin(random_1,random_2))
             self.grille[random_1][random_2] = "🦈"
             
     def display_world(self):
@@ -55,21 +55,45 @@ class Poisson:
         
     
     def se_deplacer(self):
-        mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🌊"
-        thon.coordonnees_x -= 1
+        ancien_x = self.coordonnees_x
+        ancien_y = self.coordonnees_y
+        thon.coordonnees_x += (rd.randint(-1,1))
         if thon.coordonnees_x < 0 :
             thon.coordonnees_x = 4
-        thon.coordonnees_y += 1
+        if thon.coordonnees_x > 4 :
+            thon.coordonnees_x = 0
+        thon.coordonnees_y += (rd.randint(-1,1))
         if thon.coordonnees_y > 4 :
             thon.coordonnees_y = 0
+        if thon.coordonnees_y < 0 :
+            thon.coordonnees_y = 4 
+        while mon_monde.grille[self.coordonnees_x][self.coordonnees_y] != "🌊":
+            thon.coordonnees_x += (rd.randint(-1,1))
+            if thon.coordonnees_x < 0 :
+                thon.coordonnees_x = 4
+            if thon.coordonnees_x > 4 :
+                thon.coordonnees_x = 0
+            thon.coordonnees_y += (rd.randint(-1,1))
+            if thon.coordonnees_y > 4 :
+                thon.coordonnees_y = 0
+            if thon.coordonnees_y < 0 :
+                thon.coordonnees_y = 4    
+        mon_monde.grille[ancien_x][ancien_y] = "🌊"  
         mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🐡"
+        self.compteur_reproduction += 1
+        if self.compteur_reproduction == 3 : 
+            mon_monde.grille[ancien_x][ancien_y] = "🐡"
+            
             
 
 class Requin(Poisson):
     
-    def __init__(self):
+    def __init__(self, coordonnees_x, coordonnees_y):
         self.compteur_reproduction = 0
         self.energie = 10
+        self.coordonnees_x = coordonnees_x
+        self.coordonnees_y = coordonnees_y
+        
        
     
     def se_deplacer(self):
