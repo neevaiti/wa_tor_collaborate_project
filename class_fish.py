@@ -57,7 +57,6 @@ class Poisson:
     def se_deplacer(self):
         ancien_x = self.coordonnees_x
         ancien_y = self.coordonnees_y
-        print(f'Avant : {ancien_x} {ancien_y}')
         while mon_monde.grille[self.coordonnees_x][self.coordonnees_y] != "🌊":
             thon.coordonnees_x = ancien_x + (rd.randint(-1,1))
             if thon.coordonnees_x < 0 :
@@ -69,7 +68,6 @@ class Poisson:
                 thon.coordonnees_y = 0
             if thon.coordonnees_y < 0 :
                 thon.coordonnees_y = mon_monde.column_number-1    
-        print(f'Après : {self.coordonnees_x} {self.coordonnees_y}')
         mon_monde.grille[ancien_x][ancien_y] = "🌊"  
         mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🐡"
         
@@ -78,12 +76,13 @@ class Poisson:
     def se_reproduire(self):   
         self.compteur_reproduction += 1
         if self.compteur_reproduction == 3 : 
-            while mon_monde.grille[self.coordonnees_x][self.coordonnees_y] != "🌊":
-                self.coordonnees_y -= 1
-                if self.coordonnees_y < 0 :
-                    self.coordonnees_y = mon_monde.column_number-1
-            mon_monde.grille[self.coordonnees_x][self.coordonnees_y] = "🐡"
-            liste_thons.append(Poisson(self.coordonnees_x, self.coordonnees_y))
+            bebe_poisson_y = self.coordonnees_y - 1
+            while mon_monde.grille[self.coordonnees_x][bebe_poisson_y] != "🌊":
+                bebe_poisson_y = self.coordonnees_y - 1
+                if bebe_poisson_y < 0 :
+                    bebe_poisson_y = mon_monde.column_number-1
+            mon_monde.grille[self.coordonnees_x][bebe_poisson_y] = "🐡"
+            liste_thons.append(Poisson(self.coordonnees_x, bebe_poisson_y))
             
             
 
@@ -112,7 +111,13 @@ mon_monde.fill_world()
 mon_monde.display_world()
 print('------------------------')
 for thon in liste_thons:
-    print([thon.coordonnees_x, thon.coordonnees_y])
+    thon.se_deplacer()
+mon_monde.display_world()
+print('------------------------')
+for thon in liste_thons:
+    thon.se_reproduire()
+mon_monde.display_world()
+print('------------------------')
 for thon in liste_thons:
     thon.se_deplacer()
 mon_monde.display_world()
@@ -122,8 +127,6 @@ for thon in liste_thons:
 mon_monde.display_world()
 print('------------------------')
 for thon in liste_thons:
-    print([thon.coordonnees_x, thon.coordonnees_y])
-for thon in liste_thons:
     thon.se_deplacer()
 mon_monde.display_world()
 print('------------------------')
@@ -131,18 +134,6 @@ for thon in liste_thons:
     thon.se_reproduire()
 mon_monde.display_world()
 print('------------------------')
-for thon in liste_thons:
-    print([thon.coordonnees_x, thon.coordonnees_y])
-for thon in liste_thons:
-    thon.se_deplacer()
-mon_monde.display_world()
-print('------------------------')
-for thon in liste_thons:
-    thon.se_reproduire()
-mon_monde.display_world()
-print('------------------------')
-for thon in liste_thons:
-    print([thon.coordonnees_x, thon.coordonnees_y])
 for thon in liste_thons:
     thon.se_deplacer()
 mon_monde.display_world()
